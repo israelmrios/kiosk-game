@@ -13,6 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html, body, #root {
+    height: 100%;
+    margin: 0;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -23,11 +28,13 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(https://www.pechanga.com/uploads/assets/general/PCH_BG_RGB_HeroBrand_Pattern_Charcoal_V01_20161201.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 h1 {
