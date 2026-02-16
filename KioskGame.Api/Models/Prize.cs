@@ -2,8 +2,10 @@
 {
     public class Prize
     {
-        public string Id { get; set; } = default!;
-        public string Name { get; set; } = default!;
+        public int Id { get; set; }
+        public string Code { get; set; } = "";
+        public string Name { get; set; } = "";
         public int Weight { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }
