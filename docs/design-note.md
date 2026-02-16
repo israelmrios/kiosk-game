@@ -25,5 +25,5 @@ HTML Canvas and destinatino-out was used to keep track of surface "scratched" an
 ## 6. Improvements
 Persistance was implemented but a once per liftime prize logic was not configured.
 Depoiment on a Docer container to have the app fully running.
-Create additional views for Attract Screen, Session Timed Out and Plays used.
+Create additional views for Attract Screen and Plays used.
 Create a confety effect after prize is won.

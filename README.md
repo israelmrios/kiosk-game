@@ -82,6 +82,6 @@ npm run dev
 - Admin dashboard for prize configuration
 - Unit Tests
 - Player authentication
-- Additional Views (Attract Screen, Session Expired Screen)
+- Additional Views (Attract Screen)
 - Cloud database deployment
 - Containerization with Docker

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { login, getStatus, play } from "./api";
 import LoginScreen from "./screens/LoginScreen";
 import GameScreen from "./screens/GameScreen";
+import EndScreen from "./screens/EndScreen";
 import logo from "./assets/pechanga-logo.webp";
 
 function formatCountdown(ms) {
@@ -24,6 +25,9 @@ export default function App() {
     const [loading, setLoading] = useState(false);
 
     const [scratchReset, setScratchReset] = useState(0);
+
+    const [showEndScreen, setShowEndScreen] = useState(false);
+    const [endMessage, setEndMessage] = useState("");
 
     const [now, setNow] = useState(Date.now());
     useEffect(() => {
@@ -49,11 +53,19 @@ export default function App() {
         setError(null);
         setResult(null);
         setLoading(true);
+        setShowEndScreen(false);
+        setEndMessage("");
 
         try {
             const data = await login(playerId.trim());
             setActivePlayerId(playerId.trim());
             setPlaysRemaining(data.playsRemaining ?? 0);
+
+            if ((data.playsRemaining ?? 0) <= 0) {
+                setEndMessage("No plays remaining for today.");
+                setShowEndScreen(true);
+                return;
+            }
 
             if (data.sessionExpiresAtUtc !== undefined) {
                 setSessionExpiresAtUtc(data.sessionExpiresAtUtc);
@@ -101,7 +113,33 @@ export default function App() {
         setResult(null);
         setError(null);
         setLoading(false);
+
+        setShowEndScreen(false);
+        setEndMessage("");
+        setScratchReset(0);
     }
+
+    const canPlay = playsRemaining > 0 && (sessionExpiresAtUtc == null || sessionActive);
+    const endReasonMessage = playsRemaining <= 0 ? "No plays remaining." : "Session expired. Remaining plays were lost.";
+    const sessionExpired = sessionExpiresAtUtc != null && remainingMs != null && remainingMs <= 0;
+
+    useEffect(() => {
+        if (!activePlayerId) return;
+
+        const shouldEnd = playsRemaining <= 0 || sessionExpired;
+
+        if (!shouldEnd) return;
+
+        if (showEndScreen) return;
+
+        setEndMessage(endReasonMessage);
+
+        const t = setTimeout(() => {
+            setShowEndScreen(true);
+        }, 5000);
+
+        return () => clearTimeout(t);
+    }, [playsRemaining, sessionExpired, activePlayerId]);
 
     if (!activePlayerId) {
         return (
@@ -116,7 +154,11 @@ export default function App() {
         );
     }
 
-    const canPlay = playsRemaining > 0 && (sessionExpiresAtUtc == null || sessionActive);
+    if (activePlayerId && showEndScreen) {
+        return (
+            <EndScreen message={endMessage} onGoToLogin={handleLogout} />
+        );
+    }
 
     return (
         <GameScreen

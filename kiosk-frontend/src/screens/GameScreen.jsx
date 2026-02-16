@@ -2,7 +2,7 @@ import ScratchCard from "../components/ScratchCard";
 
 export default function GameScreen({ activePlayerId, playsRemaining, countdownText, canPlay, loading, result, error, onLogout, onRevealPlay, onNextScratch, scratchReset, }) {
     return (
-        <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", }}>
+        <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center" }}>
             <button onClick={onLogout} style={{ position: "fixed", top: 16, right: 16, padding: "10px 14px", fontSize: 16, borderRadius: 10, border: "1px solid #ddd", background: "#fff", cursor: "pointer", zIndex: 1000, color: "black" }}>Logout</button>
             <div style={{ width: "100%", maxWidth: 1000, fontFamily: "system-ui", display: "flex", alignItems: "center" }}>
                 <div style={{ padding: 24 }}>
