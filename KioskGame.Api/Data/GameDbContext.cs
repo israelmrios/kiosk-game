@@ -9,5 +9,15 @@ namespace KioskGame.Api.Data
 
         public DbSet<Player> Players => Set<Player>();
         public DbSet<PlayHistory> PlayHistory => Set<PlayHistory>();
+        public DbSet<Prize> Prizes => Set<Prize>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Prize>()
+                .HasIndex(p => p.Code)
+                .IsUnique();
+        }
     }
 }

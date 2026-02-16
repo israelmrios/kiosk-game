@@ -17,6 +17,7 @@ builder.Services.AddDbContext<GameDbContext>(options =>
 
 builder.Services.AddScoped<IPlayerRepository, EfPlayerRepository>();
 builder.Services.AddScoped<IPlayHistoryRepository, EfPlayHistoryRepository>();
+builder.Services.AddScoped<IPrizeRepository, EfPrizeRepository>();
 builder.Services.AddScoped<PlayerService>();
 builder.Services.AddSingleton<PrizePicker>();
 builder.Services.AddScoped<GameService>();
