@@ -14,7 +14,7 @@ The backend was setup so each class is testable and independent from eachother.
 - EF Core manages database interaction.
 
 ## 3. Prize Selection Logic
-A cumulative weighted distribution model was used for selecting prizes.
+A cumulative weighted distribution model was used for selecting prizes. The prize list was configured to pull from the database, to allow prizes to be modified without having to modify GameServices. A Seed file was added to load prizes when db is created.
 
 ## 4. Session Hendling
 UTC timestamps were used to keep track of the session time and enforse 5 min of play.

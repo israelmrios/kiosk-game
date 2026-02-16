@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { login, getStatus, play } from "./api";
 import ScratchCard from "./components/ScratchCard";
+import logo from "./assets/pechanga-logo.webp";
 
 function formatCountdown(ms) {
     if (ms <= 0) return "00:00";
@@ -104,7 +105,7 @@ export default function App() {
     if (!activePlayerId) {
         return (
             <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-                <h1 style={{ textAlign: "center" }}>Pechanga Resort Casino</h1>
+                <img src={logo} alt="Pechanga Resort Casino" style={{ width: 400, maxWidth: "80%", marginBottom: 12 }} />
                 <h1 style={{ marginTop: 0 }}>Scratch-to-Win</h1>
                 <form onSubmit={handleLogin}>
                     <label>
