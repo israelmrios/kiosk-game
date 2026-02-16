@@ -39,18 +39,10 @@ if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<GameDbContext>();
-    DbSeeder.Seed(db);
-}
 
-if (app.Environment.IsDevelopment())
-{
-    using var scope = app.Services.CreateScope();
-    var db = scope.ServiceProvider.GetRequiredService<GameDbContext>();
     db.Database.Migrate();
-}
+    DbSeeder.Seed(db);
 
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
 }
