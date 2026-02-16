@@ -27,10 +27,10 @@ namespace KioskGame.Api.Controllers
 
                 return Ok(new
                 {
-                    outcome = result.prize.Id == "nothing" ? "LOSE" : "WIN",
-                    prize = result.prize.Id == "nothing"
+                    outcome = result.prize.Code == "nothing" ? "LOSE" : "WIN",
+                    prize = result.prize.Code == "nothing"
                         ? null
-                        : new { result.prize.Id, result.prize.Name },
+                        : new { result.prize.Code, result.prize.Name },
                     playsRemaining = result.playsRemaining,
                     sessionExpiresAtUtc = result.sessionExpiresAtUtc
                 });

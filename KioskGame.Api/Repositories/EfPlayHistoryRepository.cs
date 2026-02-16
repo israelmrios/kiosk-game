@@ -14,7 +14,7 @@ namespace KioskGame.Api.Repositories
 
         public void Add(PlayHistory play)
         {
-            _db.PlayHistory.Add(play);
+            _db.PlayHistories.Add(play);
             _db.SaveChanges();
         }
 
@@ -23,7 +23,7 @@ namespace KioskGame.Api.Repositories
             var start = dayUtc.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc);
             var end = dayUtc.ToDateTime(TimeOnly.MaxValue, DateTimeKind.Utc);
 
-            return _db.PlayHistory.Count(p =>
+            return _db.PlayHistories.Count(p =>
                 p.PlayerId == playerId &&
                 p.PlayedAtUtc.UtcDateTime >= start &&
                 p.PlayedAtUtc.UtcDateTime <= end);
@@ -31,9 +31,9 @@ namespace KioskGame.Api.Repositories
 
         public bool HasEverWonGift(string playerId)
         {
-            return _db.PlayHistory.Any(p =>
+            return _db.PlayHistories.Any(p =>
                 p.PlayerId == playerId &&
-                p.PrizeId == "gift" &&
+                p.PrizeCode == "gift" &&
                 p.IsWin);
         }
     }

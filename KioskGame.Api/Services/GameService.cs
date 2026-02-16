@@ -7,22 +7,15 @@ namespace KioskGame.Api.Services
     {
         private readonly IPlayerRepository _playerRepository;
         private readonly IPlayHistoryRepository _playHistoryRepository;
+        private readonly IPrizeRepository _prizeRepository;
         private readonly PrizePicker _prizePicker;
 
-        private static readonly List<Prize> Prizes = new()
-        {
-            new Prize { Id = "nothing", Name = "No Prize", Weight = 50 },
-            new Prize { Id = "five", Name = "$5 Free Play", Weight = 25 },
-            new Prize { Id = "ten", Name = "$10 Free Play", Weight = 15 },
-            new Prize { Id = "food", Name = "Food Voucher", Weight = 7 },
-            new Prize { Id = "gift", Name = "Gift Item", Weight = 3 }
-        };
-
-        public GameService(IPlayerRepository playerRepository, PrizePicker prizePicker, IPlayHistoryRepository playHistoryRepository)
+        public GameService(IPlayerRepository playerRepository, PrizePicker prizePicker, IPlayHistoryRepository playHistoryRepository, IPrizeRepository prizeRepository)
         {
             _playerRepository = playerRepository;
             _prizePicker = prizePicker;
             _playHistoryRepository = playHistoryRepository;
+            _prizeRepository = prizeRepository;
         }
 
         public (Prize prize, int playsRemaining, DateTimeOffset? sessionExpiresAtUtc) Play(string playerId)
@@ -56,20 +49,25 @@ namespace KioskGame.Api.Services
             player.PlaysRemaining--;
             _playerRepository.Save(player);
 
-            var prize = _prizePicker.PickPrize(Prizes);
+            var prizes = _prizeRepository.GetActivePrizes();
+            if (prizes.Count == 0)
+                throw new InvalidOperationException("No active prizes configured.");
 
-            var isWin = prize.Id != "nothing";
+            var prize = _prizePicker.PickPrize(prizes);
+
+            var isWin = prize.Code != "nothing";
 
             _playHistoryRepository.Add(new PlayHistory
             {
                 PlayerId = player.Id,
                 PlayedAtUtc = now,
                 PrizeId = prize.Id,
+                PrizeCode = prize.Code,
                 PrizeName = prize.Name,
                 IsWin = isWin
             });
 
-            if (prize.Id == "gift")
+            if (prize.Code == "gift")
             {
                 player.HasWonGift = true;
                 _playerRepository.Save(player);

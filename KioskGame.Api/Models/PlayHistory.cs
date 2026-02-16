@@ -3,11 +3,12 @@
     public class PlayHistory
     {
         public long Id { get; set; }
-        public string PlayerId { get; set; } = default!;
+        public string PlayerId { get; set; } = "";
         public DateTimeOffset PlayedAtUtc { get; set; }
 
-        public string PrizeId { get; set; } = default!;
-        public string PrizeName { get; set; } = default!;
+        public int PrizeId { get; set; }
+        public string PrizeCode { get; set; } = "";
+        public string PrizeName { get; set; } = ""!;
         public bool IsWin { get; set; }
     }
 }

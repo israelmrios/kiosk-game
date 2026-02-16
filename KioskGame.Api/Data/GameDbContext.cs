@@ -8,7 +8,7 @@ namespace KioskGame.Api.Data
         public GameDbContext(DbContextOptions<GameDbContext> options) : base(options) { }
 
         public DbSet<Player> Players => Set<Player>();
-        public DbSet<PlayHistory> PlayHistory => Set<PlayHistory>();
+        public DbSet<PlayHistory> PlayHistories => Set<PlayHistory>();
         public DbSet<Prize> Prizes => Set<Prize>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
